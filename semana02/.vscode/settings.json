@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "set": "cpp",
+        "tuple": "cpp",
+        "ios": "cpp",
+        "array": "cpp",
+        "istream": "cpp",
+        "locale": "cpp",
+        "variant": "cpp",
+        "list": "cpp",
+        "__tree": "cpp",
+        "complex": "cpp"
+    }
+}
