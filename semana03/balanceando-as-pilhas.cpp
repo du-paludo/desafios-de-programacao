@@ -1,7 +1,19 @@
 #include <iostream>
-#include <vector>
 using namespace std;
 using ll = long long;
+
+int smallestDiff = 999999999;
+
+void bt(int* wArray, int i, int diff, int n) {
+    if (i == n) {
+        if (abs(diff) < smallestDiff) {
+            smallestDiff = abs(diff);
+        }
+    } else {
+        bt(wArray, i+1, diff + wArray[i], n);
+        bt(wArray, i+1, diff - wArray[i], n);
+    }
+}
 
 int main() {
     cin.tie(0);
@@ -9,12 +21,12 @@ int main() {
 
     int n, w;
     cin >> n;
-    vector<int> wArray;
-    int stacks[n];
+    int* wArray = (int*) malloc(n * sizeof(int));
     for (int i = 0; i < n; i++) {
         cin >> w;
-        wArray.push_back(w);
+        wArray[i] = w;
     }
-
-    
+    bt(wArray, 0, 0, n);
+    free(wArray);
+    cout << smallestDiff << '\n';
 }
