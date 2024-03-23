@@ -10,8 +10,11 @@ int main() {
     int n, w;
     cin >> n;
     vector<int> wArray;
+    int stacks[n];
     for (int i = 0; i < n; i++) {
         cin >> w;
         wArray.push_back(w);
     }
+
+    
 }
