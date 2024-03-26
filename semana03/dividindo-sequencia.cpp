@@ -2,48 +2,44 @@
 using namespace std;
 using ll = long long;
 
-void partitionSub(vector<bitset<30>>& sequence, int i, int n, int k, int subsetN, vector<vector<bitset<30>>>& v) {
-    if (i >= n && subsetN == k) {
-        for (int x = 0; x < v.size(); x++) {
-            cout << "{";
-            for (int y = 0; y < v[x].size(); i++) {
-                cout << v[x][y];
+bitset<30> smallestValue("111111111111111111111111111111");
 
-                if (y == v[x].size() - 1) {
-                    cout << " ";
-                } else {
-                    cout << ", ";
-                }
-            }
-            if (x == v.size() - 1) {
-                cout << "}";
-            } else {
-                cout << "}, ";
+void sequenceDivision(vector<bitset<30>>& sequence, vector<int>& divisions, int k, int n) {
+    if (k == n-1) {
+        vector<bitset<30>> values;
+        bitset<30> temp(0);
+        for (int i = 0; i < n-1; i++) {
+            temp = temp | sequence[i];
+            if (divisions[i] == 1) {
+                values.push_back(temp);
+                temp = 0;
             }
         }
-        cout << "\n";
-        return;
-    }
 
-
-    for (int j = 0; j < k; j++) {
-        if (v[j].size() > 0) {
-            v[j].push_back(sequence[i]);
-            partitionSub(sequence, i+1, n, k, subsetN, v);
-            v[j].pop_back();
+        if (divisions[n-2] == 1) {
+            values.push_back(sequence[n-1]);
         } else {
-            v[j].push_back(sequence[i]);
-            partitionSub(sequence, i+1, n, k, subsetN + 1, v);
-            v[j].pop_back();
+            values.push_back(temp | sequence[n-1]);
         }
-    }
-}
 
-void partAllSubsets(vector<bitset<30>>& sequence, int n) {
-    // for (int k = 1; k <= n; k++) {
-        vector<vector<bitset<30>>> v(2);
-        partitionSub(sequence, 0, n, 2, 0, v);
-    // }
+        bitset<30> xorResult;
+        if (values.size() == 1) {
+            xorResult = values[0];
+        } else if (values.size() >= 2) {
+            xorResult = values[0] ^ values[1];
+            for (int i = 2; i < values.size(); i++) {
+                xorResult = xorResult ^ values[i];
+            }
+        }
+        if (xorResult.to_ullong() < smallestValue.to_ullong()) {
+            smallestValue = xorResult;
+        }
+    } else {
+        divisions[k] = 0;
+        sequenceDivision(sequence, divisions, k+1, n);
+        divisions[k] = 1;
+        sequenceDivision(sequence, divisions, k+1, n);
+    }
 }
 
 int main() {
@@ -56,7 +52,14 @@ int main() {
     vector<bitset<30>> sequence;
     for (int i = 0; i < n; i++) {
         cin >> value;
-        sequence.push_back(bitset<30>(value));
+        sequence.push_back(value);
     }
-    partAllSubsets(sequence, n);
+    
+    if (n == 1) {
+        cout << sequence[0].to_ullong() << "\n";
+    } else {
+        vector<int> divisions(n-1);
+        sequenceDivision(sequence, divisions, 0, n);
+        cout << smallestValue.to_ullong() << "\n";
+    }
 }

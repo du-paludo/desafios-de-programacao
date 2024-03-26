@@ -35,10 +35,10 @@ int main() {
         }
         // If the number of bits turned on is odd, sum in odd
         if (__builtin_popcountll(i) & 1) {
-            odd += b/p;
+            odd += b/p - (a-1)/p;
         // else, sum in even
         } else {
-            even += b/p;
+            even += b/p - (a-1)/p;
         }
     }
 
