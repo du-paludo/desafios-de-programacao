@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "__tree": "cpp",
+        "set": "cpp",
+        "ios": "cpp",
+        "tuple": "cpp",
+        "iostream": "cpp",
+        "regex": "cpp",
+        "chrono": "cpp",
+        "span": "cpp"
+    }
+}
